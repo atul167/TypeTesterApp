@@ -1,3 +1,4 @@
 import auth from "./auth.js";
 import typing from "./typing.js";
-export { auth, typing };
+import leaderboard from "./leaderboard.js";
+export { auth, typing ,leaderboard}; ;

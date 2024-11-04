@@ -53,11 +53,12 @@ function TypingTest() {
       });
     }, 1000);
   };
-
   const submitResult = async () => {
-      clearInterval(timerRef.current);
+
+    clearInterval(timerRef.current);
     const timeTaken = netSamay - timeLeft;
     const { wpm, accuracy } = superalgo(line, userInput, timeTaken);
+
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -65,15 +66,20 @@ function TypingTest() {
         navigate('/login');
         return;
       }
-      await axios.post(
-        `${API_URL}/typing/result`,
-        { wpm, accuracy },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert('Your result has been saved.');
-      navigate('/results');
+      if (accuracy >= 50) {
+        await axios.post(
+          `${API_URL}/typing/result`,
+          { wpm, accuracy },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        alert('Your result has been saved.');
+        navigate('/results');
+      } else {
+        alert('Accuracy too low. Please try again.');
+        navigate('/test');  
+      }
     } catch (err) {
-      alert(err.response?.data?.error || 'Error saving result.');
+      alert(err.response?.data?.error || 'Error saving result. Invalid test');
       console.error(err);
     }
   };
@@ -90,6 +96,10 @@ function TypingTest() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
+  };
+
+  const Leadergo = () => {
+    navigate('/leaderboard');
   };
 
   return (
@@ -137,6 +147,14 @@ function TypingTest() {
           Submit
         </button>
       </form>
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={Leadergo}
+          className="px-4 py-2 bg-green-500 text-white rounded"
+        >
+          View Leaderboard
+        </button>
+      </div>
     </div>
   );
 }
