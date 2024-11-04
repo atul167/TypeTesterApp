@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import superalgo from '../../../backend/algo';
+import API_URL from '../config';
 function TypingTest() {
   const [line, setLine] = useState('');
   const [userInput, setUserInput] = useState('');
@@ -29,7 +30,7 @@ function TypingTest() {
         navigate('/login');
         return;
       }
-      const res = await axios.get('http://localhost:5000/api/typing/line', {
+      const res = await axios.get(`${API_URL}/typing/line`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLine(res.data.line);
@@ -65,7 +66,7 @@ function TypingTest() {
         return;
       }
       await axios.post(
-        'http://localhost:5000/api/typing/result',
+        `${API_URL}/typing/result`,
         { wpm, accuracy },
         { headers: { Authorization: `Bearer ${token}` } }
       );

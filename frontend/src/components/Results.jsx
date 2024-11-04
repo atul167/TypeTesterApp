@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import API_URL from '../config';
 function Results() {
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
@@ -20,7 +20,7 @@ function Results() {
       }
 
       try {
-        const res = await axios.get('http://localhost:5000/api/typing/user', {
+        const res = await axios.get(`${API_URL}/typing/user`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsername(res.data.username);
@@ -45,7 +45,7 @@ function Results() {
       }
 
       try {
-        const res = await axios.get('http://localhost:5000/api/typing/results', {
+        const res = await axios.get(`${API_URL}/typing/results`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setResults(res.data.results);

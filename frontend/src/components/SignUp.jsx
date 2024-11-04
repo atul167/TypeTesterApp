@@ -2,16 +2,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import API_URL from '../config';
 function SignUp() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '' });
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', form);
+      await axios.post(`${API_URL}/auth/signup`, form);
       alert('User registered');
-      const loginRes = await axios.post('http://localhost:5000/api/auth/login', form);
+      const loginRes = await axios.post(`${API_URL}/auth/login`, form);
       localStorage.setItem('token', loginRes.data.token);
       navigate('/test');
     } catch (err) {
